@@ -1,5 +1,24 @@
 import streamlit as st
 import pickle
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import LabelEncoder
+
+# Load and preprocess the dataset
+df = pd.read_csv("mushrooms.csv")
+
+le = LabelEncoder()
+for col in df.columns:
+    df[col] = le.fit_transform(df[col])
+
+# Select only 4 features
+X = df[['cap-shape', 'odor', 'gill-size', 'spore-print-color']]
+y = df['class']
+
+# Train the model
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
 
 # Load the model
 with open("model.pkl", "rb") as file:
